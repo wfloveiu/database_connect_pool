@@ -1,0 +1,44 @@
+# 规定该CMakeLists.txt适用的cmake最小版本，这里是 3.10
+cmake_minimum_required(VERSION 3.10)
+
+# 相当于visual studio项目名称，这里是 Tutorial
+project(Test)
+
+# 设定编译器为C++11标准
+set(CMAKE_CXX_STANDARD 11)
+# set(CMAKE_CXX_EXTENSIONS OFF)
+# set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# 添加g++编译参数
+# add_definitions("-Wall -g")
+
+#设置编译模式 
+SET(CMAKE_BUILD_TYPE Release)
+#设置可执行文件与链接库保存的路径
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
+
+
+#到src/目录中查找*.cpp文件，然后把文件列表存入变量SRC
+# aux_source_directory("${CMAKE_CURRENT_SOURCE_DIR}/src" SRC)
+file(GLOB SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
+# 到include/目录中查找*.h文件，然后把文件列表存入变量INC
+file(GLOB INC "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h")
+
+# 设置头文件搜索目录，相当于g++时的参数-I
+include_directories(${PROJECT_SOURCE_DIR}/include)
+
+# 指定库文件搜索（libXXX.a，libXXX.so）路径，相当于g++时的-L, 多个路径以空格隔开
+link_directories(${PROJECT_BINARY_DIR}/lib)
+
+#生成库文件，文件名 STATIC|SHARED source1[source2 ....] 
+# add_library(MysqlConn SHARED ${SRC}/MysqlConn.cpp) 
+
+# 添加编译参数
+# add_compile_options(-Wall -std=c++11 -o2)
+
+# 生成可执行程序
+add_executable(test ${SRC})
+
+# 为目标可执行文件添加需要链接的共享库（动态库），详单与g++的-l参数
+target_link_libraries(test 库名)
