@@ -147,11 +147,16 @@ ubuntu 22.04
 ```shell
 # 安装mysql
 sudo apt upgrade && sudo apt install mysql-server mysql-client libmysqlclient-dev
-# 更改数据库root用户的密码为自己定义的密码
+# 更改数据库root用户的密码为自己定义的密码，并修改为密码验证。参考链接：https://www.51cto.com/article/718700.html
+sudo mysql  #使用sudo指令进入mysql
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'your_password';  # 调整用户身份验证（默认使用的不是密码验证），并更改root密码
+FLUSH PRIVILEGES;
 
-# 调整用户身份验证（默认使用的不是密码验证），参考链接：https://www.51cto.com/article/718700.html
+# 使用root和root密码登录，来验证
+mysql -u root -p
 
 # 设置远程访问地址，进入mysql数据库
+use musql
 UPDATE user SET host = '%' WHERE user = 'root';
 
 # 更改mysql配置文件
